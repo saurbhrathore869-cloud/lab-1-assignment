@@ -1,0 +1,249 @@
+lab1/
+calculator-project/calculator.js
+
+// CLI-Based Calculator using process.argv
+
+const args = process.argv.slice(2);
+
+const operation = args[0];
+const num1 = Number(args[1]);
+const num2 = Number(args[2]);
+
+// Check if the operation and numbers are valid
+if (!operation || args.length !== 3 || isNaN(num1) || isNaN(num2)) {
+    console.log("Usage: node calculator.js <operation> <num1> <num2>");
+    console.log("Operations: add, subtract, multiply, divide");
+    process.exit(1);
+}
+
+let result;
+
+switch (operation) {
+    case "add":
+        result = num1 + num2;
+        break;
+
+    case "subtract":
+        result = num1 - num2;
+        break;
+
+    case "multiply":
+        result = num1 * num2;
+        break;
+
+    case "divide":
+        if (num2 === 0) {
+            console.log("Error: Cannot divide by zero.");
+            process.exit(1);
+        }
+        result = num1 / num2;
+        break;
+
+    default:
+        console.log("Error: Invalid operation.");
+        console.log("Use add, subtract, multiply, or divide.");
+        process.exit(1);
+}
+
+console.log("Result:", result);
+
+
+
+
+lab1/
+CustomModule/isEven.js
+
+// Custom module
+
+function isEven(number) {
+    return number % 2 === 0;
+}
+
+// Export the function
+module.exports = isEven;
+
+
+app.js
+
+// Import the custom module
+const isEven = require("./isEven");
+
+// Test examples
+const numbers = [10, 15, 20, 7, 8, 13];
+
+numbers.forEach(function (number) {
+    if (isEven(number)) {
+        console.log(number + " is Even");
+    } else {
+        console.log(number + " is Odd");
+    }
+});
+
+
+
+
+lab1/
+http-server/server.js
+
+const http = require("http");
+
+const PORT = 3000;
+
+const server = http.createServer((req, res) => {
+
+    // Set response header
+    res.setHeader("Content-Type", "text/plain");
+
+    // Home route
+    if (req.url === "/" && req.method === "GET") {
+        res.statusCode = 200;
+        res.end("Welcome to the Home Page");
+    }
+
+    // About route
+    else if (req.url === "/about" && req.method === "GET") {
+        res.statusCode = 200;
+        res.end("This is the About Page");
+    }
+
+    // Contact route
+    else if (req.url === "/contact" && req.method === "GET") {
+        res.statusCode = 200;
+        res.end("This is the Contact Page");
+    }
+
+    // Invalid route
+    else {
+        res.statusCode = 404;
+        res.end("404 - Page Not Found");
+    }
+});
+
+// Start server
+server.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
+
+package.json
+
+{
+  "name": "basic-http-server",
+  "version": "1.0.0",
+  "description": "Basic HTTP Server using Node.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
+
+
+
+
+lab1/
+FileManager/fileManager.js
+
+const fs = require("fs");
+
+const fileName = "example.txt";
+
+// CREATE FILE
+function createFile() {
+    fs.writeFile(fileName, "Hello! This is my file.", (err) => {
+        if (err) {
+            console.log("Error creating file:", err.message);
+        } else {
+            console.log("File created successfully.");
+        }
+    });
+}
+
+// READ FILE
+function readFile() {
+    fs.readFile(fileName, "utf8", (err, data) => {
+        if (err) {
+            if (err.code === "ENOENT") {
+                console.log("Error: File does not exist.");
+            } else {
+                console.log("Error reading file:", err.message);
+            }
+        } else {
+            console.log("File content:");
+            console.log(data);
+        }
+    });
+}
+
+// UPDATE FILE
+function updateFile() {
+    fs.appendFile(fileName, "\nThis is updated content.", (err) => {
+        if (err) {
+            if (err.code === "ENOENT") {
+                console.log("Error: File does not exist.");
+            } else {
+                console.log("Error updating file:", err.message);
+            }
+        } else {
+            console.log("File updated successfully.");
+        }
+    });
+}
+
+// DELETE FILE
+function deleteFile() {
+    fs.unlink(fileName, (err) => {
+        if (err) {
+            if (err.code === "ENOENT") {
+                console.log("Error: File does not exist.");
+            } else {
+                console.log("Error deleting file:", err.message);
+            }
+        } else {
+            console.log("File deleted successfully.");
+        }
+    });
+}
+
+// Run operations
+createFile();
+
+setTimeout(() => {
+    readFile();
+}, 500);
+
+setTimeout(() => {
+    updateFile();
+}, 1000);
+
+setTimeout(() => {
+    readFile();
+}, 1500);
+
+setTimeout(() => {
+    deleteFile();
+}, 2000);
+
+
+
+lab1/
+RandomDice/dice.js
+
+// Random Dice Generator using crypto module
+
+const crypto = require("crypto");
+
+// Function to generate a random dice value from 1 to 6
+function rollDice() {
+    return crypto.randomInt(1, 7);
+}
+
+// Roll the dice once
+const dice = rollDice();
+
+console.log("Dice Rolled:", dice);
+
+// Simulate multiple dice rolls
+console.log("\nMultiple Dice Rolls:");
+
+for (let i = 1; i <= 10; i++) {
+    console.log("Roll " + i + ":", rollDice());
+}
